@@ -1,13 +1,99 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <title>Saltant des d'Instagram...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrint la pàgina de reserves...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #262626;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 16px;
+            color: #8e8e8e;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #0095f6;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0095f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <p>Si l'enllaç no s'obre automàticament, fes clic aquí.</p>
-  <a href="https://script.google.com/macros/s/AKfycbyE4h1xdRjEa8MdqyaAdrdyyHcKw7Atp4zaITHWokFdH0sa9Qgt2jik4OWu7Xc6g2aw/exec" target="_blank" download>Fes clic per obrir el formulari</a>
-  
+    <div class="container">
+        <div class="loader"></div>
+        <h1>Espera un moment...</h1>
+        <p>Estem redirigint-te al portal de reserves. Si no s'obre automàticament, fes clic al botó de sota.</p>
+        
+        <!-- SUBSTITUEIX AQUEST ENLLAÇ -->
+        <a href="https://script.google.com/macros/s/AKfycbyE4h1xdRjEa8MdqyaAdrdyyHcKw7Atp4zaITHWokFdH0sa9Qgt2jik4OWu7Xc6g2aw/exec" class="button">
+            Anar a les Reserves
+        </a>
+    </div>
 
+    <script>
+      (function() {
+        // 1. DEFINEIX LA TEVA URL D'APPS SCRIPT AQUÍ
+        const appUrl = "https://script.google.com/macros/s/AKfycbyE4h1xdRjEa8MdqyaAdrdyyHcKw7Atp4zaITHWokFdH0sa9Qgt2jik4OWu7Xc6g2aw/exec";
+
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isAndroid = userAgent.includes("android");
+        
+        // 2. Per a Android: Utilitzem un "Intent" per forçar l'obertura a Chrome.
+        // Aquesta és la part més important.
+        if (isAndroid) {
+            // Elimina 'https://' per a l'intent
+            const urlWithoutProtocol = appUrl.substring(8);
+            const intentUrl = "intent://" + urlWithoutProtocol + "#Intent;scheme=https;package=com.android.chrome;end";
+            
+            // Intenta obrir l'intent. L'usuari veurà aquesta pàgina només si falla.
+            window.location.replace(intentUrl);
+        } 
+        // 3. Per a iOS i altres: No hi ha un mètode directe, així que redirigim.
+        // L'usuari haurà d'utilitzar el botó "Obrir a Safari" que ofereix el navegador d'Instagram.
+        // Aquesta pàgina serveix d'instrucció clara.
+        else {
+            window.location.replace(appUrl);
+        }
+      })();
+    </script>
 </body>
 </html>
