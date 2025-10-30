@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ##### CONFIGURACIÓ: Enganxa la URL de la teva API d'Apps Script ##
     // ##################################################################
     // https://script.google.com/macros/s/AKfycbxSxP7hj_IaNThQ2mtn5x6Lf21BkZba0h4p4OA0Ow__ybWZmsAyovI35Jey-LjLSOY/exec
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSxP7hj_IaNThQ2mtn5x6Lf21BkZba0h4p4OA0Ow__ybWZmsAyovI35Jey-LjLSOY/exec'; 
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjNX10Zbkne1WPMET_k1KrJwUGM4ACnksl5qLrO0C_U80vcoHiN6tN8DeLh1accScZ/exec'; 
     // ##################################################################
 
 
