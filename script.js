@@ -56,38 +56,48 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching slots:', error);
         });
 
-    // Gestionar l'enviament del formulari
-    bookingForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById('submit-btn');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Processant...';
+    // Al teu arxiu script.js
+bookingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processant...';
 
-        const formData = {
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            slot: document.getElementById('slot').value,
-        };
+    const formData = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        slot: document.getElementById('slot').value,
+    };
 
-        fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', // Important per a redireccions d'Apps Script
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-            redirect: 'follow'
-        })
-        .then(response => {
-            // Apps Script amb 'no-cors' no retorna una resposta llegible,
-            // així que assumim èxit i confiem en el backend per a l'email.
+    // HEM TRENCAT LA PETICIÓ EN DUES PARTS PERQUÈ APPS SCRIPT HO GESTIONI MILLOR
+    // Aquesta URL final amb '?' és important
+    const url = APPS_SCRIPT_URL + '?'; 
+
+    fetch(url, {
+        method: 'POST',
+        // mode: 'no-cors', // <-- L'HEM COMENTAT TEMPORALMENT PER PODER LLEGIR LA RESPOSTA
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8', // Apps Script a vegades prefereix text/plain
+        },
+        body: JSON.stringify(formData),
+    })
+    .then(response => response.json()) // Ara intentem llegir la resposta JSON
+    .then(result => {
+        if (result.success) {
             mainContent.classList.add('hidden');
             confirmationMessage.classList.remove('hidden');
-        })
-        .catch(error => {
-            alert('Hi ha hagut un error en processar la reserva. Si us plau, contacta directament.');
-            console.error('Error submitting booking:', error);
+        } else {
+            // SI HI HA UN ERROR, L'ALERTA ENS MOSTRARÀ EL MISSATGE EXACTE DEL BACKEND
+            alert('Error: ' + result.message);
             submitBtn.disabled = false;
             submitBtn.textContent = 'Confirmar Reserva';
-        });
+        }
+    })
+    .catch(error => {
+        alert('Hi ha hagut un error de connexió. Si us plau, contacta directament.');
+        console.error('Error submitting booking:', error);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirmar Reserva';
     });
 });
