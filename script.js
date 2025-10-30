@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ##################################################################
 
 
-    // Selecció d'elements del DOM
+    // Selecció d'elements del DOM jkn,
     const step1 = document.getElementById('step-1');
     const step2 = document.getElementById('step-2');
     const slotsContainer = document.getElementById('slots-container');
